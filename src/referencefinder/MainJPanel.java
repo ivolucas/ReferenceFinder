@@ -618,6 +618,17 @@ public class MainJPanel extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        String text = jTextFieldBundleFile.getText();
+        if(text!=null && !text.isEmpty()){
+            File f = new File(text);
+            if(f.exists() && f.isDirectory()){
+                fc.setCurrentDirectory(f);
+            }
+            if(f.exists() && f.isFile()){
+                fc.setCurrentDirectory(f.getParentFile());
+            }
+        }
+        
         int returnResult = fc.showOpenDialog(this);
         if (returnResult == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
@@ -744,13 +755,8 @@ public class MainJPanel extends javax.swing.JPanel {
             for (String string : resultMatch) {
                 if (!properties.containsKey(string)) {
                     jTextAreaNewProperties.append(string);
-                    jTextAreaNewProperties.append("=");
-                    int t = string.lastIndexOf("_");
-                    if (t > 0) {
-                        jTextAreaNewProperties.append(string.substring(t));
-                    } else {
-                        jTextAreaNewProperties.append(string);
-                    }
+                    jTextAreaNewProperties.append("=");                   
+                    jTextAreaNewProperties.append(string.replace('_', ' '));                    
                     jTextAreaNewProperties.append("\n");
                 }
             }
@@ -764,7 +770,14 @@ public class MainJPanel extends javax.swing.JPanel {
 
     private void jButtonWorkFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonWorkFolderActionPerformed
         fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);        
+        String text = jTextFieldWorkFolder.getText();
+        if(text!=null && !text.isEmpty()){
+            File f = new File(text);
+            if(f.exists() && f.isDirectory()){
+                fc.setCurrentDirectory(f);
+            }
+        }
         int returnResult = fc.showOpenDialog(this);
         if (returnResult == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
